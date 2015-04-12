@@ -4,7 +4,7 @@
 #include <ctime>
 using namespace std;
 
-// 去掉数组中重复元素，返回去重后的数组大小
+// 去掉排完序的数组中重复元素，返回去重后的数组大小
 int removeRepeat(int* a, int n){
     int m = 1;
     for(int i=1; i<n; i++)
