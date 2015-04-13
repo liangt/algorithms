@@ -41,7 +41,7 @@ string re2post(string re){
             case '|':
                 tmp = ans.top();
                 ans.pop();
-                while(ans.top()!="(" && !ops.empty()){
+                while(!ans.empty() && ans.top()!="(" && !ops.empty()){
                     tmp = ans.top() + tmp + ops.top();
                     ans.pop();
                     ops.pop();
@@ -159,7 +159,7 @@ state* re2nfa(string re){
             case '|':
                 tmp1 = nfafrag.top();
                 nfafrag.pop();
-                while(nfafrag.top()!='(' && !ops.empty()){
+                while(!nfafrag.empty() && nfafrag.top()!='(' && !ops.empty()){
                     tmp2 = nfafrag.top();
                     nfafrag.pop();
                     if(ops.top() == '#'){   // #
