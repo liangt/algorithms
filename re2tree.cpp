@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <string>
 #include <stack>
@@ -85,3 +86,4 @@ string re2post(string re){
 int main(){
 	return 0;
 }
+*/
