@@ -1,8 +1,10 @@
 #include <iostream>
 using namespace std;
 
-bool visit[3][3];
 // 求解手机的九宫格图案解锁总共能绘出多少种图案
+// 回溯: 时间复杂度O(n!)
+bool visit[3][3];
+
 int unlock(int n, int m, int r, int c){
     if(m == n)
         return 1;
@@ -22,8 +24,8 @@ int unlock(int n, int m, int r, int c){
                 else{
                     if(visit[r+i/2][c+j/2]){
                         visit[x][y] = true;
-			num += unlock(n, m+1, x, y);
-			visit[x][y] = false;
+                        num += unlock(n, m+1, x, y);
+                        visit[x][y] = false;
                     }
                 }
             }
@@ -35,6 +37,49 @@ void init(){
     for(int i=0; i<3; i++)
 	for(int j=0; j<3; j++)
 	     visit[i][j] = false;
+}
+
+// dp: 时间复杂度O(2^n*n^2)
+int numbers[1<<9][3][3];
+void unlock2(){
+    for(int i=0; i<9; i++)
+		numbers[1<<i][i/3][i%3] = 1;
+
+    int tmp, r, c, x, y, dx, dy;
+    for(int n=3; n<(1<<9); n++)
+        for(int i=0; i<9; i++){
+            tmp = 1 << i;
+            if(n & tmp){
+                r = i / 3;
+                c = i % 3;
+                tmp = n - tmp;
+                for(int j=0; j<9; j++){
+                    if(tmp & (1<<j)){
+                        x = j / 3;
+                        y = j % 3;
+                        dx = r - x;
+                        dy = c - y;
+                        if(dx&1 || dy&1)
+                            numbers[n][r][c] += numbers[tmp][x][y];
+                        else{
+                            dx = (r + x) >> 1;
+                            dy = (c + y) >> 1;
+                            if(n & (1<<(dx*3+dy)))
+                                numbers[n][r][c] += numbers[tmp][x][y];
+                    }
+                }
+            }
+        }
+    }
+}
+
+int count_one(unsigned x){
+    int c=0;
+    while(x){
+        c++;
+        x=x&(x-1);
+    }
+    return c;
 }
 
 int main(){
@@ -51,5 +96,20 @@ int main(){
         cout<<n<<" "<<tmp<<endl;  // 输出n个格子的所有可能数
     }
     cout<<num<<endl;   // 输出所有可能的总数
+
+    unlock2();
+    int a[9] = {0};
+    for(int n=1; n<(1<<9); n++){
+        tmp = count_one(n) - 1;
+        for(int i=0; i<3; i++)
+            for(int j=0; j<3; j++)
+                a[tmp] += numbers[n][i][j];
+    }
+    num = 0;
+    for(int i=3; i<9; i++){
+        cout<<i<<" "<<a[i]<<endl;
+        num += a[i];
+    }
+    cout<<num<<endl;
     return 0;
 }
