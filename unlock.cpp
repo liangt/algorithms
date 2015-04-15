@@ -5,8 +5,8 @@ using namespace std;
 // 回溯: 时间复杂度O(n!)
 bool visit[3][3];
 
-int unlock(int n, int m, int r, int c){
-    if(m == n)
+int unlock(int m, int r, int c){
+    if(m == 0)
         return 1;
     int num = 0, x, y;
     for(int i=-2; i<=2; i++)
@@ -18,13 +18,13 @@ int unlock(int n, int m, int r, int c){
             if(x>=0 && x<3 && y>=0 && y<3 && !visit[x][y]){
                 if(i&1 || j&1){
                     visit[x][y] = true;
-                    num += unlock(n, m+1, x, y);
+                    num += unlock(m-1, x, y);
                     visit[x][y] = false;
                 }
                 else{
                     if(visit[r+i/2][c+j/2]){
                         visit[x][y] = true;
-                        num += unlock(n, m+1, x, y);
+                        num += unlock(m-1, x, y);
                         visit[x][y] = false;
                     }
                 }
@@ -35,8 +35,8 @@ int unlock(int n, int m, int r, int c){
 
 void init(){
     for(int i=0; i<3; i++)
-	for(int j=0; j<3; j++)
-	     visit[i][j] = false;
+        for(int j=0; j<3; j++)
+            visit[i][j] = false;
 }
 
 // dp: 时间复杂度O(2^n*n^2)
@@ -90,7 +90,7 @@ int main(){
             for(int j=0; j<3; j++){
                 init();
                 visit[i][j] = true;
-                tmp += unlock(n, 1, i, j);
+                tmp += unlock(n-1, i, j);
             }
         num += tmp;
         cout<<n<<" "<<tmp<<endl;  // 输出n个格子的所有可能数
@@ -107,7 +107,7 @@ int main(){
     }
     num = 0;
     for(int i=3; i<9; i++){
-        cout<<i<<" "<<a[i]<<endl;
+        cout<<i+1<<" "<<a[i]<<endl;
         num += a[i];
     }
     cout<<num<<endl;
