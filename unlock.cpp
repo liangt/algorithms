@@ -4,7 +4,6 @@ using namespace std;
 // 求解手机的九宫格图案解锁总共能绘出多少种图案
 // 回溯: 时间复杂度O(n!)
 bool visit[3][3];
-
 int unlock(int m, int r, int c){
     if(m == 0)
         return 1;
@@ -21,13 +20,11 @@ int unlock(int m, int r, int c){
                     num += unlock(m-1, x, y);
                     visit[x][y] = false;
                 }
-                else{
-                    if(visit[r+i/2][c+j/2]){
+                else if(visit[r+i/2][c+j/2]){
                         visit[x][y] = true;
                         num += unlock(m-1, x, y);
                         visit[x][y] = false;
                     }
-                }
             }
         }
     return num;
@@ -37,6 +34,15 @@ void init(){
     for(int i=0; i<3; i++)
         for(int j=0; j<3; j++)
             visit[i][j] = false;
+}
+
+int count_one(unsigned x){
+    int c=0;
+    while(x){
+        c++;
+        x=x&(x-1);
+    }
+    return c;
 }
 
 // dp: 时间复杂度O(2^n*n^2)
@@ -71,15 +77,6 @@ void unlock2(){
             }
         }
     }
-}
-
-int count_one(unsigned x){
-    int c=0;
-    while(x){
-        c++;
-        x=x&(x-1);
-    }
-    return c;
 }
 
 int main(){
