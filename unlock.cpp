@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 using namespace std;
 
@@ -11,7 +12,7 @@ int unlock(int m, int r, int c){
     for(int i=-2; i<=2; i++)
         for(int j=-2; j<=2; j++){
 	    if(i==0 && j==0)
-		continue;
+        continue;
             x = r + i;
             y = c + j;
             if(x>=0 && x<3 && y>=0 && y<3 && !visit[x][y]){
@@ -110,3 +111,4 @@ int main(){
     cout<<num<<endl;
     return 0;
 }
+*/
