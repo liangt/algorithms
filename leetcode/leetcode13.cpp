@@ -1,29 +1,32 @@
 /*
 #include <iostream>
-#include <vector>
-#include <string>
+#include <map>
 using namespace std;
 
-string longestCommonPrefix(vector<string>& strs) {
-    if(strs.size() == 0)
-        return "";
-    string ans = strs[0];
-    for(int i=1; i<strs.size(); i++){
-        if(ans.size()==0 || strs[i].size()==0)
-        return "";
-        int j = 0;
-        while(ans[j] == strs[i][j])
-            j++;
-        ans  = ans.substr(0, j);
-    }
-    return ans;
+int romanToInt(string s) {
+        map<char, int> mp;
+        mp['I'] = 1; mp['V'] = 5; mp['X'] = 10;
+        mp['L'] = 50;   mp['C'] = 100;
+        mp['D'] = 500; mp['M'] = 1000;
+        int ans=0, i=0;
+        while(i<s.size()-1){
+            if(mp[s[i]] < mp[s[i+1]]){
+                ans += mp[s[i+1]]-mp[s[i]];
+                i++;
+            }
+            else
+                ans += mp[s[i]];
+            i++;
+        }
+        if(i < s.size())
+            ans += mp[s[i]];
+        return ans;
 }
 
 int main(){
-    vector<string> strs(4);
-    for(int i=0; i<4; i++)
-        cin>>strs[i];
-    cout<<longestCommonPrefix(strs)<<endl;
+    string in;
+    while(cin>>in)
+        cout<<romanToInt(in)<<endl;
     return 0;
 }
 */
