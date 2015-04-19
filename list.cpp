@@ -29,6 +29,8 @@ node* reverseOddAndEvenNode(node* root){
     node* pre=nroot, *tmp;
     while(root != NULL){
         tmp = root->next;
+        if(tmp == NULL)
+            break;
         pre->next = tmp;
         root->next = tmp->next;
         tmp->next = root;
