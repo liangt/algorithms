@@ -9,9 +9,6 @@ struct ListNode {
  };
 
 ListNode *swapPairs(ListNode *head) {
-    if(head==NULL || head->next==NULL)
-        return head;
-
     ListNode *root = new ListNode(0);
     root->next = head;
     ListNode *pre=root, *cur=head, *nxt;
