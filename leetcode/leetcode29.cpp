@@ -1,9 +1,10 @@
+/*
 #include <iostream>
 #include <climits>
 using namespace std;
 
 int divide(int dividend, int divisor) {
-    if(divisor == 0)
+    if(divisor == 0 || (dividend==INT_MIN && divisor==-1))
         return INT_MAX;
     if(dividend == 0)
         return 0;
@@ -20,17 +21,22 @@ int divide(int dividend, int divisor) {
     }
     if(dd < ds)
         return 0;
-    int ans=1;
+    int ans=0, tp;
     long long tmp=0;
-    while(tmp <= dividend){
-        tmp += divisor;
-        ans++;
+    while(ds <= dd){
+        tmp = ds;
+        dd -= ds;
+        tp = 1;
+        while(tmp <= dd){  // 每次翻倍
+            dd -= tmp;
+            tmp += tmp;
+            tp += tp;
+        }
+        ans += tp;
     }
-    ans--;
     return t ? ans : -ans;
 }
 
-/*
 // Time Limit Exceeded
 int divide(int dividend, int divisor) {
     if(divisor == 0)
@@ -54,12 +60,11 @@ int divide(int dividend, int divisor) {
     ans--;
     return t ? ans : -ans;
 }
-*/
 
 int main(){
-    cout<<INT_MIN<<endl;
     int a,b;
     while(cin>>a>>b)
         cout<<divide(a, b)<<endl;
     return 0;
 }
+*/
