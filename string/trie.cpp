@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -15,6 +16,7 @@ struct node{
     }
 };
 
+// 建立前缀树
 node* build(string a[], int n){
     node* root = new node;
     node* tmp;
@@ -32,6 +34,7 @@ node* build(string a[], int n){
     return root;
 }
 
+// 往树中添加节点
 void add(node* root, string a, int val){
     node* tmp = root;
     int j;
@@ -44,6 +47,7 @@ void add(node* root, string a, int val){
     tmp->val = val;
 }
 
+// 返回指定节点的值
 int get(node* root, string a){
     node* tmp = root;
     int j;
@@ -66,6 +70,7 @@ void keysWithPrefixHelp(node* root, string pre,  vector<string>& ans){
         keysWithPrefixHelp((root->children)[i], tmp, ans);
 }
 
+// 返回指定前缀的keys
 vector<string> keysWithPrefix(node* root, string pre){
     vector<string> ans;
     node* tmp = root;
@@ -84,20 +89,82 @@ vector<string> keysWithPrefix(node* root, string pre){
         keysWithPrefixHelp((tmp->children)[i], pre, ans);
 }
 
+// 返回所有的keys
 vector<string> getAllKeys(node* root){
     return keysWithPrefix(root, "");
 }
 
-void keysThatMatchHelp(node* root, string pat, vector<string>& ans){
-    node* tmp = root;
-    for(int i=0; i<pat.size(); i++){
+// 匹配带*的字符, *表示可以是任何字符
+vector<string> keysThatMatch(node* root, string pat, string sts[]){
+    vector<string> ans;
+    int n = pat.size();
+    if(n == 0)
+        return ans;
+    node* tmp;
+    vector<node*> pre;
+    if(pat[0] == '*'){
+        for(int i=0;i <26; i++){
+            tmp = (root->children)[i];
+            if(tmp != NULL)
+                pre.push_back(tmp);
+        }
     }
+    else{
+        tmp =(root->children)[pat[0]-'a'];
+        if(tmp == NULL)
+            return ans;
+        pre.push_back(tmp);
+    }
+    vector<node*> nxt;
+    for(int i=1; i<pat.size(); i++){
+            for(int j=0; j<pre.size(); j++){
+                if(pat[i] == '*'){
+                    for(int t=0; t<26; t++){
+                        tmp = (pre[j]->children)[t];
+                        if(tmp != NULL)
+                            nxt.push_back(tmp);
+                    }
+                }
+                else{
+                    tmp =  (pre[j]->children)[pat[i]-'a'];
+                    if(tmp != NULL)
+                        nxt.push_back(tmp);
+                }
+            }
+            if(nxt.empty())
+                break;
+            pre = nxt;
+            nxt.clear();
+    }
+    for(int i=0; i<pre.size(); i++)
+        if(pre[i]->val > -1)
+            ans.push_back(sts[pre[i]->val]);
+    return ans;
 }
 
-vector<string> keysThatMatch(node* root, string pat){
-    vector<string> ans;
-    keysThatMatchHelp(root, pat, ans);
-    return ans;
+// 删除指定节点
+node* deleteNode(node* root, string a){
+    if(root == NULL)
+        return NULL;
+    if(a.empty()){
+        if(root->val > -1)
+            root->val = -1;
+        for(int i=0; i<26; i++)
+            if((root->children)[i] != NULL)
+                return root;
+        delete root;
+        return NULL;
+    }
+    node* tmp = (root->children)[a[0]-'a'];
+    if(tmp == NULL)
+        return root;
+    (root->children)[a[0]-'a'] = deleteNode(tmp, a.substr(1, a.size()-1));
+    for(int i=0; i<26; i++){
+        if((root->children)[i]  != NULL)
+            return root;
+    }
+    delete root;
+    return NULL;
 }
 
 void travel(node* root){
@@ -125,21 +192,41 @@ int main(){
     }
     cout<<endl;
 
+    // 建树
     node* root = build(a, N);
+
+    // 遍历输出各键对应的值
     travel(root);
+
+    // 返回特定键的值
     string tmp;
     cin>>tmp;
     cout<<get(root, tmp)<<endl;
+
+    // 返回特定前缀的键
     cin>>tmp;
     vector<string> keys = keysWithPrefix(root, tmp);
     for(int i=0; i<keys.size(); i++)
         cout<<keys[i]<<" ";
     cout<<endl;
 
+    // 返回所有键
     vector<string> allkeys = getAllKeys(root);
     for(int i=0; i<allkeys.size(); i++)
         cout<<allkeys[i]<<" ";
     cout<<endl;
 
+    // 返回与特定带*字符串匹配的键
+    cin>>tmp;
+    vector<string> keysWithStar = keysThatMatch(root, tmp, a);
+     for(int i=0; i<keysWithStar.size(); i++)
+        cout<<keysWithStar[i]<<" ";
+    cout<<endl;
+
+    // 删除指定键
+    cin>>tmp;
+    root = deleteNode(root, tmp);
+    cout<<get(root, tmp)<<endl;
 	return 0;
 }
+*/
