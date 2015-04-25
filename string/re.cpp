@@ -87,12 +87,11 @@ void travel(state* s){
 bool recognition(string s){
     int n1=0, n2, n=s.size();
     dfs(pre, nfa[0], n1);
-    cout<<n1<<endl;
     for(int i=0; i<n; i++){
         n2 = 0;
         for(int j=0; j<n1; j++)
             if(pre[j]->c == s[i])
-                dfs(next, pre[j], n2);
+                dfs(next, pre[j]->out, n2);
         if(n2 == 0)
             return false;
         swap(pre, next);
