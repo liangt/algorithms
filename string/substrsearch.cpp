@@ -1,7 +1,8 @@
 /*
 #include <iostream>
-#include <string>
+#include <cstring>
 #include <cstdlib>
+#include <string>
 #include <ctime>
 using namespace std;
 
@@ -19,7 +20,7 @@ int  bf1(string s, string p){
             if(j == n2)
                 return i;
     }
-    return n1;
+    return -1;
 }
 
 int  bf2(string s, string p){
@@ -35,8 +36,7 @@ int  bf2(string s, string p){
         }
     if(j == n2)
         return i-j;
-    else
-        return n1;
+    return -1;
 }
 
 // KMP
@@ -69,7 +69,7 @@ int kmp1(string s, string p){
         if(pre == np)
             return i+1-pre;
     }
-    return ns;
+    return -1;
 }
 
 // 方法二:  边界数组
@@ -99,12 +99,62 @@ int kmp2(string s, string p){
         if(pre == np)
             return i+1-pre;
     }
-    return ns;
+    return -1;
 }
 
 // Boyer-Moore
+// 根据字符串构造一张每个字符在模式中的出现的最右边位置的表格
+// 从右向左扫描模式字符串，并在匹配失败时通过跳跃将文本中的字符和它在模式字符串中出现的最右位置对齐
+int rights[26];
 int boyerMoore(string s, string p){
+    int ns=s.size(), np=p.size();
+    // 构造rights数组
+    memset(rights, -1, sizeof(rights));
+    for(int i=0; i<np; i++)
+        rights[p[i]-'0'] = i;
+
+    // 查找模式子串
+    int skip;
+    for(int i=0; i<=ns-np; i+=skip){
+        skip = 0;
+        for(int j=np-1; j>=0; j--)
+            if(s[i+j] != p[j]){
+                skip = j - rights[s[i+j]-'0'];
+                if(skip < 1)
+                    skip = 1;
+                break;
+            }
+        if(skip == 0)
+            return i;
+    }
     return -1;
+}
+
+// Rabin-Karp
+// 将长度为M的字符串看成是基为R的数，将其转换成0---Q-1之间的数
+// 分别计算模式子串的散列值和文本串中所有M长连续子串的散列值
+// 当它们散列值相等时，只要Q取得适当，如很大的素数，它们相等的概率几乎为1
+// 当然，也可以当它们散列值相等时，再逐字符检查它们是否相等
+int rabinKarp(string s, string p){
+    int ns=s.size(), np=p.size();
+    const int Q = 999983;
+    const int R = 256;
+    int RM=1, ph=p[0], sh=s[0];
+    for(int i=1; i<np; i++){
+        RM = (RM * R) % Q;
+        ph = (ph * R + p[i]) % Q;
+        sh = (sh * R + s[i]) % Q;
+    }
+
+    if(ph == sh)
+        return 0;
+    for(int i=np; i<ns; i++){
+        sh = (sh + Q - s[i-np]*RM%Q) % Q;
+        sh = (sh * R + s[i]) % Q;
+        if(ph == sh)
+            return i-np+1;
+    }
+    return  -1;
 }
 
 int main(){
@@ -136,6 +186,14 @@ int main(){
         tmp = kmp2(s, p);
         et = clock();
         cout<<"kmp2: "<<tmp<<" "<<double(et-st) / CLOCKS_PER_SEC<<endl;
+        st = clock();
+        tmp = boyerMoore(s, p);
+        et = clock();
+        cout<<"boyerMoore: "<<tmp<<" "<<double(et-st) / CLOCKS_PER_SEC<<endl;
+        st = clock();
+        tmp = rabinKarp(s, p);
+        et = clock();
+        cout<<"rabinKarp: "<<tmp<<" "<<double(et-st) / CLOCKS_PER_SEC<<endl;
         cout<<endl;
     }
 
@@ -163,6 +221,14 @@ int main(){
         tmp = kmp2(s, p);
         et = clock();
         cout<<"kmp2: "<<tmp<<" "<<double(et-st) / CLOCKS_PER_SEC<<endl;
+        st = clock();
+        tmp = boyerMoore(s, p);
+        et = clock();
+        cout<<"boyerMoore: "<<tmp<<" "<<double(et-st) / CLOCKS_PER_SEC<<endl;
+        st = clock();
+        tmp = rabinKarp(s, p);
+        et = clock();
+        cout<<"rabinKarp: "<<tmp<<" "<<double(et-st) / CLOCKS_PER_SEC<<endl;
         cout<<endl;
     }
     return 0;

@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <string>
 #include <stack>
@@ -243,3 +244,4 @@ int main(){
     re2nfa(in);
 	return 0;
 }
+*/
