@@ -16,7 +16,8 @@ struct node{
     }
 };
 
-// 建立前缀树
+// 建立前缀树，时间复杂度为 O(nl)
+//n为单词数，l为单词的平均长度
 node* build(string a[], int n){
     node* root = new node;
     node* tmp;
