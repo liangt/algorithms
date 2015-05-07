@@ -3,6 +3,7 @@
 #include <string>
 using namespace std;
 
+// KMP
 int strStr(string haystack, string needle) {
     int ns=haystack.size(), np=needle.size();
     if(np==0)
