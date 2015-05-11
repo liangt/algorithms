@@ -1,3 +1,4 @@
+/*
 #include <cstdio>
 #include <algorithm>
 using namespace std;
@@ -31,3 +32,4 @@ int main()
         puts("-1\n");
     return 0;
 }
+*/

@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <queue>
 using namespace std;
@@ -107,11 +108,11 @@ void pre_in_level(int n)
 
 int main()
 {
-    /* 测试样例
-    7
-    2 3 1 5 7 6 4
-    1 2 3 4 5 6 7
-    */
+    // 测试样例
+    //7
+    //2 3 1 5 7 6 4
+    //1 2 3 4 5 6 7
+    //
     int n;
     cin>>n;
     for(int i=0; i<n; i++)
@@ -147,3 +148,4 @@ int main()
         cout<<level[i]<<" ";
     cout<<endl;
 }
+*/

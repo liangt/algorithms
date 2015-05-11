@@ -1,3 +1,4 @@
+/*
 #include <cstdio>
 
 char a[2002];
@@ -39,3 +40,4 @@ int main()
     }
     return 0;
 }
+*/
