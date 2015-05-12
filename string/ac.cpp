@@ -1,40 +1,34 @@
 /*
 #include <iostream>
-#include <string>
 #include <queue>
 #include <cstring>
 using namespace std;
 
 struct node{
-    int val;   // 单词索引,-1表示不是字典中单词
-    node* fail;
+    int val;   // 针对不同应用，可以有不同含义，如标记字典中的单词，统计单词出现的频率，记录单词的下标等，这里以统计字典中的单词为例
+    node* fail;   // 表示当前节点发生匹配失败时，下次匹配的节点
     node* children[26];
     node(){
-        val = -1;
+        val = 0;
         fail = NULL;
         memset(children, 0, sizeof(children));
     }
 };
 
-// 构建tire树
-node*  build(string pats[], int sz){
-    node* root = new node;
-    node*  tmp;
-    int idx, n;
-    for(int i=0; i<sz; i++){
-        tmp = root;
-        n = pats[i].size();
-        for(int j=0; j<n; j++){
-            idx = pats[i][j] - 'a';
-            if(root->children[idx] == NULL)
-                root->children[idx] = new node;
-            tmp = root->children[idx] ;
-        }
-        tmp->val = i;
+// 往tire树中添加节点
+void  add(node* root, char* s){
+    int i;
+    while(*s != '\0'){
+        i = *s - 'a';
+        if(root->children[i] == NULL)
+            root->children[i] = new node;
+        root = root->children[i];
+        s++;
     }
-    return root;
+    root->val++;
 }
 
+// 构建fail指针
 void fail(node* root){
     queue<node*> que;
     for(int i=0; i<26; i++)
@@ -64,34 +58,39 @@ void fail(node* root){
     }
 }
 
-int query(node* root, string s){
-    int n= s.size(), j;
+// 匹配过程
+int query(node* root, char* s){
     node *tmp=root, *tp;
-    int ans = 0;   // 记录模式出现的总次数，也可以用一个数组单独记录各个模式出现的次数
-    for(int i=0; i<n; i++){
-        j = s[i] - 'a';
-        while(tmp!=root && tmp->children[j]==NULL)
+    int i, ans=0;   // 记录模式出现的总次数，也可以用一个数组单独记录各个模式出现的次数
+    while(*s != '\0'){
+        i = *s - 'a';
+        while(tmp!=NULL && tmp->children[i]==NULL)
             tmp = tmp->fail;
-        tmp  = tmp->children[j];
         if(tmp == NULL)
             tmp = root;
+        else
+            tmp = tmp->children[i];
 
         // 当tmp是终止状态，记录所有可能的终止状态(因为它的fail指针所指状态也可能是终止状态)
         tp = tmp;
-        while(tp!=NULL && tp->val>-1){
-            ans++;
-            tmp = tmp->fail;
+        while(tp!=NULL && tp->val>0){
+            ans += tp->val;
+            tp->val = 0;   // 避免重复计数
+            tp = tp->fail;
         }
+        s++;
     }
     return ans;
 }
 
 int main(){
-    string pats[] = {"announce", "annual", "annually"};
-    string s = "annual_announce";
-    node* root = build(pats, 3);
+    char* pats[] = {"announce", "annual", "annually"};
+    char* s = "annual_announce";
+    node* root= new node;
+    for(int i=0; i<3; i++)
+        add(root, pats[i]);
     fail(root);
-    cout<<query(root, s);
+    cout<<query(root, s)<<endl;
 	return 0;
 }
 */
