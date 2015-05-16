@@ -1,3 +1,4 @@
+/*
 #include <cstdio>
 #include <queue>
 #include <cstring>
@@ -89,3 +90,4 @@ int main(){
         printf("NO\n");
 	return 0;
 }
+*/
