@@ -36,13 +36,18 @@ void build(int num){
 }
 
 void update(int i, int v){
-	i += n -1;
+	i += n - 1;
 	seg[i] = v;
-	int p = (i - 1) / 2;
-	while(p && seg[p] > seg[i]){
-		seg[p] = seg[i];
+	int p, l, r;
+	while (i){
+		p = (i - 1) >> 1;
+		l = (p << 1) + 1;
+		r = l + 1;
+		if (seg[l] > seg[r])
+			seg[p] = seg[r];
+		else
+			seg[p] = seg[l];
 		i = p;
-		p = (i - 1) / 2;
 	}
 }
 
@@ -90,13 +95,17 @@ void update2(int i, int v, int l, int r, int k){
         seg[k] = v;
         return;
     }
-    int m = (l + r) / 2;
+    int m = (l + r) / 2, lv, rv;
+    lv = 2 * k + 1;
+    rv = lv + 1;
     if(i < m)
         update2(i, v, l, m, 2*k+1);
     else
         update2(i, v, m, r, 2*k+2);
-    if(seg[k] < v)
-        seg[k] = v;
+    if(seg[lv] > seg[rv])
+        seg[k] = seg[rv];
+    else
+        seg[k] = seg[lv];
 }
 
 // 实现三: 指针
