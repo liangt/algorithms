@@ -1,3 +1,4 @@
+/*
 #include <cstdio>
 
 const int N = 50000;
@@ -61,3 +62,4 @@ int main(){
     printf("%d\n", res);
     return 0;
 }
+*/
