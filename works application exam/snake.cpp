@@ -2,7 +2,8 @@
 #include <cstdio>
 
 const int N = 500;
-int n, m, a[N][N], ans[N][N], up[N][N], down[N][N];
+int n, m, a[N][N], up[N][N], down[N][N];
+long long ans[N][N];
 
 void upAndDown(int c){
     for(int i=0; i<n; i++)
@@ -46,7 +47,7 @@ int main(){
     for(int i=0; i<n; i++)
         for(int j=0; j<m; j++)
             scanf("%d", &a[i][j]);
-    int tp;
+    long long tp;
     upAndDown(0);
     for(int i=0; i<n; i++)
         for(int j=0; j<n; j++)
@@ -99,7 +100,7 @@ int main(){
     for(int i=0; i<n; i++)
         if(tp < ans[n-1][i])
             tp = ans[n-1][i];
-    printf("%d\n", tp);
+    printf("%lld\n", tp);
 	return 0;
 }
 */
