@@ -4,7 +4,7 @@
 #include <algorithm>
 using namespace std;
 
-const int N = 100002;
+const int N = 10002;
 int seg[N<<3], a[N], b[N], n;
 
 void update(int a, int b, int v, int l, int r, int k){
@@ -28,23 +28,24 @@ void update(int a, int b, int v, int l, int r, int k){
 }
 
 int main(){
-    int num, i, j, lv, rv;
-    while(scanf("%d %d", &num, &j) != EOF){
+    int num, cs, i, j, lv, rv;
+    scanf("%d", &cs);
+    while(cs--){
+        scanf("%d", &num);
         for(i=0; i<num; i++)
-        scanf("%d%d", a+i, b+i);
+            scanf("%d%d", a+i, b+i);
         for(i=0, j=num; i<num; i++, j++){
             seg[i] = a[i];
             seg[j] = b[i];
         }
-        // 离散化
         sort(seg, seg+j);
         j = unique(seg, seg+j) - seg;
         for(i=0; i<num; i++){
             a[i] = lower_bound(seg, seg+j, a[i]) - seg;
             b[i] = lower_bound(seg, seg+j, b[i]) - seg;
+            printf("%d %d\n", a[i], b[i]);
         }
 
-        // 线段树
         n = 1;
         while(n < j)
             n <<= 1;
@@ -60,7 +61,13 @@ int main(){
                 seg[rv] = seg[i];
                 seg[i] = 0;
             }
+        for(i=n; i<n+j; i++)
+            printf("%d ", seg[i]);
+        printf("\n");
         sort(seg+n, seg+n+j);
+        for(i=n; i<n+j; i++)
+            printf("%d ", seg[i]);
+        printf("\n");
         num = unique(seg+n, seg+n+j) - (seg + n);
         if(seg[n] == 0)
             num--;

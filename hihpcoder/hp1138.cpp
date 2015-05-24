@@ -1,4 +1,3 @@
-/*
 #include <cstdio>
 #include <vector>
 #include <queue>
@@ -89,4 +88,3 @@ int main(){
 	printf("%d\n", dis[n-1]);
 	return 0;
 }
-*/

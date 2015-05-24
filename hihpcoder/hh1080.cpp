@@ -1,3 +1,4 @@
+/*
 #include <cstdio>
 
 const int N = 100002;
@@ -27,3 +28,4 @@ void update1(int a, int b, int v, int l, int r, int k){
 int main(){
 	return 0;
 }
+*/
