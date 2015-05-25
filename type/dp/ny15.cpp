@@ -1,3 +1,4 @@
+/*
 #include <cstdio>
 #include <cstring>
 
@@ -12,19 +13,20 @@ int  solve(){
     memset(s, 0, sizeof(s));
     for(int i=0; i<n; i++)
         s[i][i] = 1;
-    int j, tn;
-    for(int i=0; i<n; i++){
-        tn = n - i;
-        for(int l=1; l<tn; l++){
+    int j, tn, tp, tmp;
+    for(int l=1; l<n; l++){
+        tn = n - l;
+        for(int i=0; i<tn; i++){
             j = i + l;
-            if(str[i]=='(' && str[j]==')' || str[i]=='['&&str[j]==']')
-                s[i][j] = s[i+1][j-1];
-            else{
-                if(s[i][j-1] < s[i+1][j])
-                    s[i][j] = 1 + s[i][j-1];
-                else
-                    s[i][j] = 1 + s[i+1][j];
+            tp = N;
+            if((str[i]=='(' && str[j]==')') || (str[i]=='[' && str[j]==']'))
+                tp = s[i+1][j-1];
+            for(int k=i; k<j; k++){
+                tmp = s[i][k] + s[k+1][j];
+                if(tmp < tp)
+                    tp = tmp;
             }
+            s[i][j] = tp;
         }
     }
     return s[0][n-1];
@@ -39,3 +41,4 @@ int main(){
     }
 	return 0;
 }
+*/
