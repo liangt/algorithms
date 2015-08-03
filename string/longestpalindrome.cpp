@@ -116,12 +116,11 @@ int longestpalindrome3(string str){
     }
     a[1] = 1;
     n = 2 * n + 1;
-    int l = 3, c = 1, t, j, k;
+    int l = 3, c = 1, t, j=1, k;
     for(int i=2; i<n; i++){
-        c = 1;
         if(j + a[j] > i){
             t = 2 * j - i;
-            c = max(c, min(a[t], a[j]+j-i));
+            c = max(1, min(a[t], a[j]+j-i));
         }
         for(k=c; i-k>=0 && i+k<n; k++){
             if(tmp[i-k] != tmp[i+k])
