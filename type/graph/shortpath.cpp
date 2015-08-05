@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <vector>
 #include <queue>
@@ -79,13 +80,72 @@ void spfa(int s){
 }
 
 bool visit[N];
+int G2[N][N];
 void dijkstra(int s){
     for(int i=0; i<N; i++)
         dis[i] = INF;
     dis[s] = 0;
+    int ms, v;
+    for(int i=0; i<N; i++){
+        v = INF;
+        for(int j=0; j<N; j++)
+            if(!visit[j] && dis[j] < v){
+                v = dis[j];
+                ms = j;
+            }
+        visit[ms] = true;
+        for(int j=0; j<N; j++)
+            if(!visit[v] && dis[j] > dis[ms] + G[ms][j].weight)
+                dis[j] = dis[ms] + G[ms][j].weight;
+    }
+}
 
+struct qnode{
+    int id;
+    int dis;
+    qnode(){}
+    qnode(int id, int dis):id(id), dis(dis){}
+    bool operator<(const qnode& other) const{
+        return dis > other.dis;
+    }
+};
+
+void dijkstra2(int s){
+    for(int i=0; i<N; i++)
+        dis[i] = INF;
+    dis[s] = 0;
+    priority_queue<qnode> pq;
+    pq.push(qnode(s, 0));
+    qnode tp;
+    while(!pq.empty()){
+        tp = pq.top();
+        pq.pop();
+        if(tp.dis > dis[tp.id])
+            continue;
+        for(int i=0; i<G[tp.id].size(); i++)
+            if(dis[G[tp.id][i].id] > dis[tp.id] + G[tp.id][i].weight){
+                dis[G[tp.id][i].id] = dis[tp.id] + G[tp.id][i].weight;
+                pq.push(qnode(G[tp.id][i].id, dis[G[tp.id][i].id]));
+            }
+    }
+}
+
+int d[N][N];
+void floyd_warshall(){
+    for(int i=0; i<N; i++){
+        for(int j<0; j<N; j++)
+            d[i][j] = INF;
+        d[i][i] = 0;
+    }
+
+    for(int k=0; k<N; k++)
+        for(int i=0; i<N; i++)
+            for(int j=0; j<N; j++)
+                if(d[i][j] > d[i][k] + d[k][j])
+                    d[i][j] = d[i][k] + d[k][j];
 }
 
 int main(){
     return 0;
 }
+*/
