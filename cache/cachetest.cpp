@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include "FIFOCache.h"
 #include "LFUCache.h"
@@ -28,3 +29,4 @@ int main(){
     cout<<"命令率为: "<<double(c)/n<<endl;
     return 0;
 }
+*/
