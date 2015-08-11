@@ -1,3 +1,4 @@
+/*
 #include <iostream>
 #include <ctime>
 #include <cstdlib>
@@ -56,3 +57,4 @@ int main(){
     cout<<c<<endl;
     return 0;
 }
+*/
