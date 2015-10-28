@@ -56,7 +56,7 @@ void update(int a, int b, int v, int l, int r, int k){
     update(a, b, v, l, m, lv);
     update(a, b, v, m, r, rv);
     if(seg[l] > seg[r])
-        seg[k] = seg[l];
+        seg[k] = seg[r];
     else
         seg[k] = seg[l];
 }
