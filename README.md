@@ -1,4 +1,3 @@
 # algorithms
-Algorithms learning
 
-Brush the question
+Coding Exercise.
